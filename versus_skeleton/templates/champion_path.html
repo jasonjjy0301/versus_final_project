@@ -1,0 +1,36 @@
+<!doctype html>
+
+{% if message %}
+  <h2>{{message}}</h2>
+{% endif %}
+
+<!-- championpath = (matchup_id, bracket_id, round, slot, votes_a, votes_b, entrant_a_id, entrant_b_id, winner_entrant_id ） -->
+
+<title>Championpath </title>
+<h2>Championpath </h2>
+<table border='1' cellpadding='4'>
+  <tr>
+    <th>Round</th>
+    <th>Slot</th>
+    <th>Entrant A</th>
+    <th>Votes A</th>
+    <th>Votes B</th>
+    <th>Entrant B</th>
+    <th>Winner</th>
+  </tr>
+  {% for c in championpath %}
+    <tr>
+      <td>{{c[2]}}</td>
+      <td>{{c[3]}}</td>
+      <td>{{c[6]}}</td>
+      <td>{{c[4]}}</td>
+      <td>{{c[5]}}</td>
+      <td>{{c[7]}}</td>
+      <td>{{c[8]}}</td>
+    </tr>
+  {% endfor %}
+</table>
+
+<ul>
+  <li><a href='/browse'>home</a></li>
+</ul>

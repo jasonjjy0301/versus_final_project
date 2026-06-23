@@ -1,0 +1,88 @@
+<!doctype html>
+
+{% if message %}
+  <h2>{{message}}</h2>
+{% endif %}
+
+<!-- user = ( user_id, username, email, bio, created_at) -->
+<!-- achievements = ( a.A_code, a.A_name, u1.awarded_at) -->
+<!-- prediction_count = ( COUNT(*) ) -->
+<!-- points = ( SUM(points_earned) ) -->
+<!-- correct = ( COUNT(*) ) -->
+<!-- hosted = ( bracket_id, title ) -->
+  <title>{{user[1]}}</title>
+  <h2>{{user[1]}}</h2>
+
+<ul>
+  <li><a href='/browse'>home</a></li>
+</ul>
+
+<p>
+  username: {{user[1]}} |
+  email: {{user[2]}}
+</p>
+<p>
+  bio: {{user[3]}} |
+</p>
+<h3>Achievements</h3>
+<table border='1' cellpadding='4'>
+    <tr>
+        <th>Achievements_name</th>
+        <th>awarded_at</th>
+    </tr>
+    {% for a in achievements %}
+        <tr>
+            <td>{{a[1]}}</td>
+            <td>{{a[2]}}</td>
+        </tr>
+    {% endfor%}
+</table>
+<h3>Stats</h3>
+<p>
+  number of predictions: {{prediction_count[0]}} 
+</p>
+<p>
+  total prediction points: {{points[0]}} 
+</p>
+<p>
+  number of correct: {{correct[0]}} 
+</p>
+<h3>brackets </h3>
+<table border='1' cellpadding='4'>
+    <tr>
+        <th>bracket id</th>
+        <th>bracket name</th>
+    </tr>
+    {% for h in hosted %}
+        <tr>
+            <td>{{h[0]}}</td>
+            <td>{{h[1]}}</td>
+        </tr>
+    {% endfor%}
+</table>
+<h3>follower list </h3>
+<table border='1' cellpadding='4'>
+    <tr>
+        <th>followers id</th>
+        <th>followers name</th>
+    </tr>
+    {% for f in followers %}
+        <tr>
+            <td>{{f[0]}}</td>
+            <td>{{f[1]}}</td>
+        </tr>
+    {% endfor%}
+</table>
+<h3>following list </h3>
+<table border='1' cellpadding='4'>
+    <tr>
+        <th>following id</th>
+        <th>following name</th>
+    </tr>
+    {% for f in following %}
+        <tr>
+            <td>{{f[0]}}</td>
+            <td>{{f[1]}}</td>
+        </tr>
+    {% endfor%}
+</table>

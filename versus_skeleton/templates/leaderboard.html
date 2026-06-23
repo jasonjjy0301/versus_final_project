@@ -1,0 +1,30 @@
+<!doctype html>
+
+{% if message %}
+  <h2>{{message}}</h2>
+{% endif %}
+
+<title>Leaderboard</title>
+<h2>Leaderboard</h2>
+<table border='1' cellpadding='4'>
+    <tr>
+        <th>user_id</th>
+        <th>username</th>
+        <th>points</th>
+        <th>rank</th>
+        <th>dence_rank</th>
+        <th>percent_rank</th>
+    </tr>
+    {% for l in leaderboard %}
+        <tr>
+            <td>{{l[0]}}</td>
+            <td>{{l[1]}}</td>
+            <td>{{l[2]}}</td>
+            <td>{{l[3]}}</td>
+            <td>{{l[4]}}</td>
+            <td>{{l[5]}}</td>
+        </tr>
+    {% endfor%}
+</table>
+<br />
+<a href='/'>Home</a>

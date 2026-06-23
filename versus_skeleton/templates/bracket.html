@@ -1,0 +1,120 @@
+<!doctype html>
+
+{% if message %}
+  <h2>{{message}}</h2>
+{% endif %}
+
+<!-- bracket = (bracket_id, title, description, status, entrant_count, host_username) -->
+<title>{{bracket[1]}}</title>
+
+<h1>{{bracket[1]}}</h1>
+
+<p>
+  Host: {{bracket[5]}} |
+  Entrants: {{bracket[4]}} |
+  Status: <b>{{bracket[3]}}</b>
+</p>
+
+{% if bracket[2] %}
+  <p>{{bracket[2]}}</p>
+{% endif %}
+
+{% if bracket[3] == 'predictions_open' %}
+<form action='/start_round1' method='POST'>
+  <input type="hidden" name="bracket_id" value="{{bracket[0]}}">
+  <input type="submit" value="Start Round 1">
+</form>
+{% endif %}
+<!-- matchup = (matchup_id, round, slot, entrant_a_name, entrant_b_name, winner_name, votes_a, votes_b) -->
+<h3>Matchups</h3>
+
+<table border='1' cellpadding='4'>
+  <tr>
+    <th>Round</th>
+    <th>Slot</th>
+    <th>Entrant A</th>
+    <th>Votes A</th>
+    <th>Votes B</th>
+    <th>Entrant B</th>
+    <th>Winner</th>
+    <th>Prediction</th>
+    <th>Vote</th>
+  </tr>
+  {% for m in matchups %}
+    <tr>
+      <td>{{m[1]}}</td>
+      <td>{{m[2]}}</td>
+      <td>{% if m[3] %}{{m[3]}}{% else %}(TBD){% endif %}</td>
+      <td>{{m[6]}}</td>
+      <td>{{m[7]}}</td>
+      <td>{% if m[4] %}{{m[4]}}{% else %}(TBD){% endif %}</td>
+      <td>{% if m[5] %}{{m[5]}}{% else %}-{% endif %}</td>
+      <td>{% if bracket[3]=='predictions_open' and m[1]==1%}
+        <form action="/predict" method="POST">
+          <input type='hidden' name="matchup_id" value='{{m[0]}}'/>
+          <input type="hidden" name="bracket_id" value="{{bracket[0]}}">
+          <select name="entrant_id">
+            <option value="{{m[8]}}">{{m[3]}}</option>
+            <option value="{{m[9]}}">{{m[4]}}</option>
+          </select>
+          <input type='submit' value='Predict' />
+        </form>{% endif %}</td>
+      <td>{% if bracket[3] == ('round_' + (m[1]|string))%}
+        <form action="/vote" method="POST">
+          <input type='hidden' name="matchup_id" value='{{m[0]}}'/>
+          <select name="entrant_id">
+            <option value="{{m[8]}}">{{m[3]}}</option>
+            <option value="{{m[9]}}">{{m[4]}}</option>
+          </select>
+          <input type='submit' value='Vote' />
+        </form>  
+      {% endif %}
+      </td>
+    </tr>
+     <td colspan="9">
+      <b>Comments</b>
+      {% if m[1] == 1 %}
+      {% for c in comments %}
+        {% if c[2] == m[0] %}
+        <p>User name: {{c[6]}} |body: {{c[3]}} </p>
+        <form action="/follow" method="POST">
+          <input type='hidden' name="matchup_id" value='{{m[0]}}'/>
+          <input type="hidden" name="followed_id" value="{{c[5]}}">
+          <input type="submit" value="Follow">
+        </form>
+        {% endif %}
+      {% endfor %}
+      <form action="/comments" method="POST">
+        <input type='hidden' name="matchup_id" value='{{m[0]}}'/>
+        <input type="hidden" name="bracket_id" value="{{bracket[0]}}">
+        <input type="text" name="comments" required>
+        <input type="submit" value="Comment">
+      </form>
+      {% endif %}
+    </td>
+  {% endfor %}
+
+</table>
+{% if bracket[3] != 'predictions_open' and bracket[3] !='completed '%}
+<form action="/close_round" method="POST">
+  <input type="hidden" name="bracket_id" value="{{bracket[0]}}">
+  <input type="submit" value="close_round">
+</form>
+{% endif %}
+
+{% if bracket[3] =='completed'%}
+<h3>Champion_path</h3>
+ <form action="/champion_path" method="POST">
+  <input type="hidden" name="bracket_id" value="{{bracket[0]}}">
+  <input type="submit" value="Champion Path">
+ </form>
+{% endif %}
+
+
+
+
+<br />
+<ul>
+  <li><a href='/browse'>Browse brackets</a></li>
+  <li><a href='/'>Home</a></li>
+</ul>
