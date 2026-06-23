@@ -177,21 +177,6 @@ INSERT INTO Achievements VALUES
 ('bracket_maker', 'bracket maker','Host first bracket'),
 ('locked_in', 'locked in','submit 10th prediction ');
 
-CREATE INDEX idx_brackets_host
-ON Brackets(host_id);
-
-CREATE INDEX idx_comments_matchup
-ON Comments(matchup_id);
-
-CREATE INDEX idx_predictions_user
-ON Predictions(user_id);
-
-CREATE INDEX idx_votes_matchup
-ON Votes(matchup_id);
-
-CREATE INDEX idx_follow_followed
-ON Follow(followed_id);
-
 CREATE TABLE Follow(
 	follower_id			INT NOT NULL,
     followed_id			INT NOT NULL,
@@ -210,6 +195,21 @@ CREATE TABLE Comments (
     CONSTRAINT fk_comments_matchup_id       FOREIGN KEY (matchup_id)        	REFERENCES Matchups(matchup_id),  
     CONSTRAINT fk_comments_user_id		   	FOREIGN KEY (user_id)		   		REFERENCES Users(user_id)
 );
+
+CREATE INDEX idx_brackets_host
+ON Brackets(host_id);
+
+CREATE INDEX idx_comments_matchup
+ON Comments(matchup_id);
+
+CREATE INDEX idx_predictions_user
+ON Predictions(user_id);
+
+CREATE INDEX idx_votes_matchup
+ON Votes(matchup_id);
+
+CREATE INDEX idx_follow_followed
+ON Follow(followed_id);
 
 
 
