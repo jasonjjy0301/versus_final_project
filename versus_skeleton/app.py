@@ -19,7 +19,7 @@ app.secret_key = 'super secret string'  # Change this!
 
 # These will need to be changed according to your credentials.
 DB_USER     = 'root'
-DB_PASSWORD = 'your_password_here'
+DB_PASSWORD = 'jiao3jie1'
 DB_NAME     = 'versus'
 DB_HOST     = 'localhost'
 
@@ -709,6 +709,30 @@ def champion_path():
 	bracket_id = request.form.get('bracket_id')
 	championpath = getChampionPath(bracket_id)
 	return render_template('champion_path.html',championpath=championpath)
+
+@app.route('/sql_console', methods=['GET', 'POST'])
+@flask_login.login_required
+def sql_console():
+
+    result = None
+    error = None
+
+    if request.method == 'POST':
+        query = request.form.get('query')
+        cursor = conn.cursor()
+        try:
+            cursor.execute(query)
+            if query.strip().lower().startswith("select") or query.strip().lower().startswith("explain"):
+                result = cursor.fetchall()
+            else:
+                conn.commit()
+                result = [("Query executed successfully.",)]
+        except Exception as e:
+            error = str(e)
+        cursor.close()
+
+    return render_template('sql_console.html', result=result, error=error)
+
 
 
 # default page
