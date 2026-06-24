@@ -19,7 +19,7 @@ app.secret_key = 'super secret string'  # Change this!
 
 # These will need to be changed according to your credentials.
 DB_USER     = 'root'
-DB_PASSWORD = 'jiao3jie1'
+DB_PASSWORD = 'your_passord'
 DB_NAME     = 'versus'
 DB_HOST     = 'localhost'
 
