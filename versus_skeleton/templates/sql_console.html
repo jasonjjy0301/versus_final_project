@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+    <title>SQL Console</title>
+</head>
+<body>
+    <h1>SQL Console</h1>
+
+    <form method="POST">
+        <textarea name="query" rows="8" cols="80" placeholder="Enter SQL here"></textarea><br>
+        <input type="submit" value="Run SQL">
+    </form>
+
+    {% if result %}
+        <h2>Result</h2>
+        <table border="1">
+            {% for row in result %}
+                <tr>
+                    {% for item in row %}
+                        <td>{{ item }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <br>
+    <a href="/">Home</a>
+</body>
+</html>
